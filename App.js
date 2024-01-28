@@ -1,13 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
+import Input from './components/Input';
 
 export default function App() {
+  const [name, setName] = useState(""); // State for name
+  const [number, setNumber] = useState(""); // State for number
+
+  function receiveInput(receivedName, receivedNumber){
+    console.log("Received name:", receivedName, "and number:", receivedNumber);
+    setName(receivedName);
+    setNumber(receivedNumber);
+  }
+
   return (
-    <View style={styles.container}>
-      <Header />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerView}>
       <StatusBar style="auto" />
-    </View>
+      <Header />
+      </View>
+      <View style={styles.inputView}>
+      <Input inputHandler={receiveInput} />
+      {/* Display the received name and number */}
+      <Text>Name: {name}</Text>
+      <Text>Number: {number}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -18,4 +36,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerView:{
+    flex: 1,
+  },
+  inputView:{
+    flex: 5,
+    backgroundColor: 'grey',
+  }
 });

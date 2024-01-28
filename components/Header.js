@@ -10,12 +10,8 @@ export default function Header({name}) {
 }
 
 const styles = StyleSheet.create({
-  header:{
-    padding: 5,
-    borderRadius: 5,
-  },
   headerText: {
     color: "purple",
     fontSize: 20,
-  },
+  }
 });
