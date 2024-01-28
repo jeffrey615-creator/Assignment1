@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import Checkbox from 'expo-checkbox';
 
 export default function Input({ inputHandler, dismissModal }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [nameError, setNameError] = useState('');
   const [numberError, setNumberError] = useState('');
+  const [isChecked, setChecked] = useState(false);
+  
 
   function changeNameHandler(changedName) {
     setName(changedName);
@@ -67,6 +70,16 @@ export default function Input({ inputHandler, dismissModal }) {
       />
       {numberError ? <Text style={styles.errorText}>{numberError}</Text> : null}
 
+      <View style={styles.section}>
+        <Checkbox
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#4630EB' : undefined}
+        />
+        <Text style={styles.paragraph}>I am not a Robot</Text>
+      </View>
+
       <View style={styles.buttonsContainer}>
         <Button title="Reset" onPress={cancelHandler} />
         <Button title="Confirm" onPress={confirmHandler} />
@@ -97,5 +110,15 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     marginBottom: 5,
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paragraph: {
+    fontSize: 15,
+  },
+  checkbox: {
+    margin: 8,
   },
 });
