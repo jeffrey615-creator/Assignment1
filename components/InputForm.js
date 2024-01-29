@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, Text, StyleSheet } from 'react-native';
+import CustomInput from './CustomInput';
+import CustomButton from './CustomButton';
+import CustomCheckbox from './CustomCheckbox';
+import ErrorMessage from './ErrorMessage';
+import Card from './Card';
 
-export default function Input({ inputHandler, dismissModal }) {
+export default function InputForm({ inputHandler, dismissModal }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [nameError, setNameError] = useState('');
@@ -51,42 +55,33 @@ export default function Input({ inputHandler, dismissModal }) {
   }
 
   return (
-    <View style={styles.container}>
+    <Card>
       <Text>Name</Text>
-      <TextInput 
+      <CustomInput 
         placeholder="Type something"
-        style={styles.input} 
         value={name} 
         onChangeText={changeNameHandler}
       />
-      {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+      <ErrorMessage message={nameError} />
 
       <Text>Enter a Number</Text>
-      <TextInput 
-        style={styles.input} 
+      <CustomInput 
         value={number} 
         keyboardType="numeric"
         onChangeText={changeNumberHandler}
       />
-      {numberError ? <Text style={styles.errorText}>{numberError}</Text> : null}
+      <ErrorMessage message={numberError} />
 
-      <View style={styles.section}>
-        <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        />
-        <Text style={styles.paragraph}>I am not a Robot</Text>
-      </View>
+      <CustomCheckbox isChecked={isChecked} setChecked={setChecked} />
 
       <View style={styles.buttonsContainer}>
-        <Button title="Reset" onPress={cancelHandler} />
-        <Button title="Confirm" onPress={confirmHandler} />
+        <CustomButton title="Reset" onPress={cancelHandler} />
+        <CustomButton title="Confirm" onPress={confirmHandler} />
       </View>
-    </View>
+    </Card>
   );
 }
+
 
 const styles = StyleSheet.create({
   buttonsContainer: {

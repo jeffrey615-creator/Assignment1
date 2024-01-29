@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
-import Input from './components/Input';
+import InputForm from './components/InputForm';
 
 export default function App() {
   const [name, setName] = useState(""); // State for name
@@ -20,7 +20,7 @@ export default function App() {
       <Header />
       </View>
       <View style={styles.inputView}>
-      <Input inputHandler={receiveInput} />
+      <InputForm inputHandler={receiveInput} />
       {/* Display the received name and number */}
       <Text>Name: {name}</Text>
       <Text>Number: {number}</Text>
