@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Modal, SafeAreaView } from 'react-native';
 import CustomInput from './CustomInput';
 import CustomButton from './CustomButton';
 import CustomCheckbox from './CustomCheckbox';
 import ErrorMessage from './ErrorMessage';
 import Card from './Card';
+import Header from './Header';
 
-export default function InputForm({ inputHandler, dismissModal }) {
+export default function InputForm({ inputHandler, modalVisible, dismissModal }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [nameError, setNameError] = useState('');
@@ -37,13 +38,12 @@ export default function InputForm({ inputHandler, dismissModal }) {
     const isNameValid = isValidName(name);
     const isNumberValid = isValidNumber(number);
     
-    if (!isNameValid || !isNumberValid) {
+    if (isNameValid && isNumberValid) {
+      inputHandler(name, number);
+    } else {
       if (!isNameValid) setNameError('Invalid name');
       if (!isNumberValid) setNumberError('Number must be between 1020 and 1029');
-      return;
     }
-
-    inputHandler(name, number); // Call inputHandler with valid data
   }
 
   function cancelHandler() {
@@ -55,8 +55,13 @@ export default function InputForm({ inputHandler, dismissModal }) {
   }
 
   return (
-    <Card>
-      <Text>Name</Text>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.headerView}>
+      <Header style={styles.headerText}/>
+      </View>
+      <View style={styles.inputView}>
+      <Card style={styles.card}>
+      <Text style = {styles.text} >Name</Text>
       <CustomInput 
         placeholder="Type something"
         value={name} 
@@ -64,7 +69,7 @@ export default function InputForm({ inputHandler, dismissModal }) {
       />
       <ErrorMessage message={nameError} />
 
-      <Text>Enter a Number</Text>
+      <Text style = {styles.text}>Enter a Number</Text>
       <CustomInput 
         value={number} 
         keyboardType="numeric"
@@ -79,9 +84,10 @@ export default function InputForm({ inputHandler, dismissModal }) {
         <CustomButton title="Confirm" onPress={confirmHandler} />
       </View>
     </Card>
+    </View>
+    </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   buttonsContainer: {
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: '#ECD4FF',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -116,4 +122,26 @@ const styles = StyleSheet.create({
   checkbox: {
     margin: 8,
   },
+  text:{
+    color: 'purple'
+  },
+  card: {
+    padding: 20,
+    backgroundColor: 'grey',
+    borderRadius: 20,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  headerText: {
+    color: "purple",
+    fontSize: 20,
+  },
+  headerView:{
+    flex: 1,
+  },
+  inputView:{
+    flex: 5,
+  }
 });

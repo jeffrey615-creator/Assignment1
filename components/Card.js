@@ -10,8 +10,8 @@ const Card = ({ children }) => (
 const styles = StyleSheet.create({
   card: {
     padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
+    backgroundColor: 'grey',
+    borderRadius: 20,
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowRadius: 10,
