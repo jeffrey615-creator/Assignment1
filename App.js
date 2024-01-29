@@ -4,71 +4,81 @@ import InputForm from './components/InputForm';
 import GameScreen from './components/GameScreen'; 
 import FinalScreen from './components/FinalScreen';
 
+const INITIAL_ATTEMPTS = 3;
+const CORRECT_NUMBER = 1021; // Change this as needed
+
 export default function App() {
   const [name, setName] = useState(""); 
   const [number, setNumber] = useState(""); 
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const [isGameScreenVisible, setIsGameScreenVisible] = useState(false);
-  const [attemptsLeft, setAttemptsLeft] = useState(3);
-  const [correctNumber] = useState(1021);
-  const [gameOver, setGameOver] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState('input');
+  const [attemptsLeft, setAttemptsLeft] = useState(INITIAL_ATTEMPTS);
+  const [isWin, setIsWin] = useState(false);
 
   function inputHandler(receivedName, receivedNumber){
     setName(receivedName);
     setNumber(receivedNumber);
-    setIsModalVisible(false); // Hide input form
-    setIsGameScreenVisible(true); // Show game screen
+    setCurrentScreen('game');
+    if (parseInt(receivedNumber, 10) === CORRECT_NUMBER){
+      setIsWin(true);
+    } else {
+      setIsWin(false);
+    }
   }
+  
 
-  function handleGuess() { 
-    setAttemptsLeft(attemptsLeft - 1);
-    setIsGameScreenVisible(false);
-    setIsModalVisible(true);
-  }
+  const handleGuess = (guess) => {
+    if (parseInt(guess, 10) === CORRECT_NUMBER) {
+      setIsWin(true);
+      setCurrentScreen('final');
+    } else if (attemptsLeft > 1) {
+      setAttemptsLeft(prevAttempts => prevAttempts - 1);
+      setCurrentScreen('input');
+    } else {
+      setIsWin(false);
+      setCurrentScreen('final');
+    }
+  };
 
   function resetGame() {
-    setGameOver(false);
-    setAttemptsLeft(2);
-    setIsGameScreenVisible(false);
-    setIsModalVisible(true);
-  }
-
-  function showFinalScreen(){
-    console.log("showFinalScreen called");
-    setGameOver(true);
-    setIsGameScreenVisible(false);
-    setIsModalVisible(false);
+    console.log("press reset");
+    setName("");
+    setNumber("");
+    setIsWin(false);
+    setAttemptsLeft(INITIAL_ATTEMPTS);
+    setCurrentScreen('input');
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        onRequestClose={() => setIsModalVisible(false)}
-        transparent={true}
-      >
-        <InputForm inputHandler={inputHandler} dismissModal={() => setIsModalVisible(false)}/>
-      </Modal>
+      {currentScreen === 'input' && (
+        <Modal
+          visible={true}
+          animationType="slide"
+          onRequestClose={() => setCurrentScreen('game')}
+          transparent={true}
+        >
+          <InputForm inputHandler={inputHandler}/>
+        </Modal>
+      )}
 
-      {isGameScreenVisible && !gameOver && (
+      {currentScreen === 'game' && (
         <GameScreen
-          visible={isGameScreenVisible}
           userName={name}
           userGuess={number}
           attemptsLeft={attemptsLeft}
+          isWin = {isWin}
           onGuess={handleGuess}
-          showFinalScreen={showFinalScreen}
-          correctNumber={correctNumber}
+          showFinalScreen={() => setCurrentScreen('final')}
+          correctNumber={CORRECT_NUMBER}
         />
       )}
 
-      {gameOver && (
+      {currentScreen === 'final' && (
         <FinalScreen
-          userGuess={number}
+          isWin={isWin}
+          chosenValue={number}
           onRestart={resetGame}
-          correctNumber={correctNumber}
         />
       )}
     </SafeAreaView>

@@ -1,36 +1,39 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Modal } from 'react-native';
 
-const GameScreen = ({ visible, userName, userGuess, attemptsLeft, onGuess, showFinalScreen, correctNumber }) => {
-  return (
-    <Modal visible={visible} animationType="slide" transparent={true}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello, {userName}!</Text>
-          <Text style={styles.modalText}>You have chosen {userGuess}</Text>
-
-          {attemptsLeft > 0 ? (
-            <View>
-              <Text style={styles.modalText}>
-                {parseInt(userGuess, 10) !== correctNumber ?
-                  `Guess ${userGuess < correctNumber ? 'higher' : 'lower'}. Attempts left: ${attemptsLeft - 1}` :
-                  "Congrats! You Won!"
-                }
-              </Text>
-              <Button title="I am done" onPress={showFinalScreen} />
-              <Button title="Let Me Guess Again" onPress={() => onGuess(userGuess)} />
-            </View>
-          ) : (
-            <View>
-              <Text style={styles.modalText}>Game Over! The correct number was {correctNumber}.</Text>
-              <Button title="Restart Game" onPress={showFinalScreen} />
-            </View>
-          )}
-        </View>
+const GameScreen = ({ visible, userName, userGuess, attemptsLeft, isWin, onGuess, showFinalScreen, correctNumber }) => {
+    // Evaluate the guess and prepare messages
+    const isCorrectGuess = isWin;
+    const guessFeedback = isCorrectGuess 
+      ? "Congrats! You Won!" 
+      : `Guess ${userGuess < correctNumber ? 'higher' : 'lower'}. Attempts left: ${attemptsLeft - 1}`;
+  
+    const guessSection = attemptsLeft > 0 ? (
+      <View>
+        <Text style={styles.modalText}>{guessFeedback}</Text>
+        <Button title={isCorrectGuess ? "Thank you" : "I am done"} onPress={showFinalScreen} />
+        {!isCorrectGuess && <Button title="Let Me Guess Again" onPress={() => onGuess(userGuess)} />}
       </View>
-    </Modal>
-  );
-};
+    ) : (
+      <View>
+        <Text style={styles.modalText}>Game Over! The correct number was {correctNumber}.</Text>
+        <Button title="Restart Game" onPress={showFinalScreen} />
+      </View>
+    );
+  
+    return (
+      <Modal visible={visible} animationType="slide" transparent={true}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello, {userName}!</Text>
+            <Text style={styles.modalText}>Your guess: {userGuess}</Text>
+            {guessSection}
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+  
 
 const styles = StyleSheet.create({
   centeredView: {
