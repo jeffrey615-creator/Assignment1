@@ -35,6 +35,10 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
   }
 
   function confirmHandler() {
+    if (!isChecked) {
+      return;
+    }
+  
     const isNameValid = isValidName(name);
     const isNumberValid = isValidNumber(number);
     
@@ -51,7 +55,8 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
     setNumber("");
     setNameError('');
     setNumberError('');
-    dismissModal && dismissModal(); // Call dismissModal if it's passed as a prop
+    setChecked(false);
+    dismissModal && dismissModal(); 
   }
 
   return (
@@ -81,7 +86,11 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
 
       <View style={styles.buttonsContainer}>
         <CustomButton title="Reset" onPress={cancelHandler} />
-        <CustomButton title="Confirm" onPress={confirmHandler} />
+        <CustomButton 
+          title="Confirm" 
+          onPress={confirmHandler} 
+          disabled={!isChecked || !isValidName(name) || !isValidNumber(number)} 
+        />
       </View>
     </Card>
     </View>
