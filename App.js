@@ -19,7 +19,6 @@ export default function App() {
     return Math.floor(Math.random() * 10) + 1020; 
   }
 
-
   function inputHandler(receivedName, receivedNumber){
     setName(receivedName);
     setNumber(receivedNumber);
@@ -31,7 +30,6 @@ export default function App() {
     }
   }
   
-
   const handleGuess = (guess) => {
     if (parseInt(guess, 10) === correctNumber) {
       setIsWin(true);
@@ -51,23 +49,23 @@ export default function App() {
     setIsWin(false);
     setAttemptsLeft(INITIAL_ATTEMPTS);
     setCurrentScreen('input');
+    setCorrectNumber(generateRandomNumber())
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       {currentScreen === 'input' && (
+          <InputForm inputHandler={inputHandler}/>
+      )}
+
+      {currentScreen === 'game' && (
         <Modal
           visible={true}
           animationType="slide"
           onRequestClose={() => setCurrentScreen('game')}
           transparent={true}
         >
-          <InputForm inputHandler={inputHandler}/>
-        </Modal>
-      )}
-
-      {currentScreen === 'game' && (
         <GameScreen
           userName={name}
           userGuess={number}
@@ -77,6 +75,7 @@ export default function App() {
           showFinalScreen={() => setCurrentScreen('final')}
           correctNumber={correctNumber}
         />
+        </Modal>
       )}
 
       {currentScreen === 'final' && (

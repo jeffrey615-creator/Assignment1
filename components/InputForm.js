@@ -17,7 +17,7 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
   
   function changeNameHandler(changedName) {
     setName(changedName);
-    if (changedName) setNameError(''); 
+    if (changedName) setNameError('')
   }
 
   function changeNumberHandler(changedNumber) {
@@ -68,7 +68,6 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
       <Card style={styles.card}>
       <Text style = {styles.text} >Name</Text>
       <CustomInput 
-        placeholder="Type something"
         value={name} 
         onChangeText={changeNameHandler}
       />

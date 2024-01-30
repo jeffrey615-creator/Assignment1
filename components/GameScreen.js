@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Modal } from 'react-native';
 
 const GameScreen = ({ visible, userName, userGuess, attemptsLeft, isWin, onGuess, showFinalScreen, correctNumber }) => {
-    // Evaluate the guess and prepare messages
     const isCorrectGuess = isWin;
     const guessFeedback = isCorrectGuess 
       ? "Congrats! You Won!" 
