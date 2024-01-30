@@ -6,6 +6,7 @@ import CustomCheckbox from './CustomCheckbox';
 import ErrorMessage from './ErrorMessage';
 import Card from './Card';
 import Header from './Header';
+import { colors } from '../Styles';
 
 export default function InputForm({ inputHandler, modalVisible, dismissModal }) {
   const [name, setName] = useState("");
@@ -14,7 +15,6 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
   const [numberError, setNumberError] = useState('');
   const [isChecked, setChecked] = useState(false);
   
-
   function changeNameHandler(changedName) {
     setName(changedName);
     if (changedName) setNameError(''); 
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 2,
-    borderBottomColor: "purple",
+    borderBottomColor: colors.textColor,
     width: "80%",
     marginVertical: 10,
   },
   container: {
     flex: 1,
-    backgroundColor: '#ECD4FF',
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   text:{
-    color: 'purple'
+    color: colors.textColor,
   },
   card: {
     padding: 20,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   headerText: {
-    color: "purple",
+    color: colors.textColor,
     fontSize: 20,
   },
   headerView:{

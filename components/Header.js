@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { colors } from '../Styles';
 
 export default function Header({name}) {
   return (
@@ -11,7 +12,7 @@ export default function Header({name}) {
 
 const styles = StyleSheet.create({
   headerText: {
-    color: "purple",
+    color: colors.textColor,
     fontSize: 20,
   }
 });

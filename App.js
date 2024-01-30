@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar, StyleSheet, Modal } from 'react-native';
 import InputForm from './components/InputForm';
 import GameScreen from './components/GameScreen'; 
 import FinalScreen from './components/FinalScreen';
+import { colors } from './Styles'; 
 
 const INITIAL_ATTEMPTS = 3;
 
@@ -92,7 +93,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ECD4FF',
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
