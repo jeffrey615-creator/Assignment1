@@ -5,7 +5,6 @@ import GameScreen from './components/GameScreen';
 import FinalScreen from './components/FinalScreen';
 
 const INITIAL_ATTEMPTS = 3;
-const CORRECT_NUMBER = 1021; // Change this as needed
 
 export default function App() {
   const [name, setName] = useState(""); 
@@ -13,12 +12,18 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('input');
   const [attemptsLeft, setAttemptsLeft] = useState(INITIAL_ATTEMPTS);
   const [isWin, setIsWin] = useState(false);
+  const [correctNumber, setCorrectNumber] = useState(generateRandomNumber());
+
+  function generateRandomNumber() {
+    return Math.floor(Math.random() * 10) + 1020; 
+  }
+
 
   function inputHandler(receivedName, receivedNumber){
     setName(receivedName);
     setNumber(receivedNumber);
     setCurrentScreen('game');
-    if (parseInt(receivedNumber, 10) === CORRECT_NUMBER){
+    if (parseInt(receivedNumber, 10) === correctNumber){
       setIsWin(true);
     } else {
       setIsWin(false);
@@ -27,7 +32,7 @@ export default function App() {
   
 
   const handleGuess = (guess) => {
-    if (parseInt(guess, 10) === CORRECT_NUMBER) {
+    if (parseInt(guess, 10) === correctNumber) {
       setIsWin(true);
       setCurrentScreen('final');
     } else if (attemptsLeft > 1) {
@@ -40,7 +45,6 @@ export default function App() {
   };
 
   function resetGame() {
-    console.log("press reset");
     setName("");
     setNumber("");
     setIsWin(false);
@@ -70,7 +74,7 @@ export default function App() {
           isWin = {isWin}
           onGuess={handleGuess}
           showFinalScreen={() => setCurrentScreen('final')}
-          correctNumber={CORRECT_NUMBER}
+          correctNumber={correctNumber}
         />
       )}
 

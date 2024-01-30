@@ -17,12 +17,12 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
 
   function changeNameHandler(changedName) {
     setName(changedName);
-    if (changedName) setNameError(''); // Clear error when user starts typing
+    if (changedName) setNameError(''); 
   }
 
   function changeNumberHandler(changedNumber) {
     setNumber(changedNumber);
-    if (changedNumber) setNumberError(''); // Clear error when user starts typing
+    if (changedNumber) setNumberError(''); 
   }
 
   function isValidName(name) {
@@ -89,7 +89,7 @@ export default function InputForm({ inputHandler, modalVisible, dismissModal }) 
         <CustomButton 
           title="Confirm" 
           onPress={confirmHandler} 
-          disabled={!isChecked || !isValidName(name) || !isValidNumber(number)} 
+          disabled={!isChecked} 
         />
       </View>
     </Card>
